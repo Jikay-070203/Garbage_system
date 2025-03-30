@@ -1,0 +1,14 @@
+ultralytics
+numpy
+opencv-python
+torch
+Pillow
+imageio
+onnxruntime
+onnxruntime-gpu
+onnx
+trism
+huggingface_hub
+uvicorn
+fastapi
+python-multipart

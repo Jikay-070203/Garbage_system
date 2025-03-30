@@ -1,0 +1,17 @@
+fastapi==0.115.8
+uvicorn==0.34.0
+tritonclient[all]
+Pillow==11.1.0
+opencv-python
+numpy
+python-multipart
+torch==2.1.2+cu118
+torchvision==0.16.2+cu118
+--find-links https://download.pytorch.org/whl/torch_stable.html
+insightface
+onnxruntime-gpu
+sqlalchemy 
+pymysql
+huggingface_hub
+openpyxl
+pandas
