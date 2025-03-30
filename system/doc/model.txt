@@ -1,0 +1,7 @@
+1. Hỗ trợ định dạng mô hình
+bao gồm:
+
+PyTorch (torch): .pt, .pth
+TensorFlow/Keras,(tensorflow): .h5, .pb, .tflite
+ONNX (onnxruntime): .onnx
+OpenVINO (openvino): .xml + .bin

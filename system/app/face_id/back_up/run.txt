@@ -1,7 +1,0 @@
-docker run --gpus=all --rm -p 8000:8000 -p 8001:8001 -p 8002:8002 -v D:\SourceCode\ProjectOJT\complete\OJT_TASK3_LOCAL\FASTAPI_V8\model:/models nvcr.io/nvidia/tritonserver:23.10-py3 tritonserver --model-repository=/models
-
-
-uvicorn app:app --host 0.0.0.0 --port 8080 --reload
-
-pip install -r requirements.txt
-if error will set_up :Desktop development with C++ trong Visual Studio Build Tools nếu thiếu driver

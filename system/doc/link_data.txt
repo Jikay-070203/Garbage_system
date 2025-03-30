@@ -1,0 +1,8 @@
++ link data v11 and v12:
+https://www.kaggle.com/datasets/nguyenthanhhoak18hcm/garbage-yolo11-12
+
++ link garbage:
+https://app.roboflow.com/dpl302m-lwlob/waste-classification-i0drg/3
+
++ link data face
+https://app.roboflow.com/dpl302m-lwlob/widerface2_task1_ojt_ver1/1
