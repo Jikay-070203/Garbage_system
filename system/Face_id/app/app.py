@@ -25,10 +25,10 @@ from user_routes import router as user_router
 app = FastAPI()
 
 # === Kết nối DB ===
-Base.metadata.create_all(bind=engine)
 create_database()    
-create_tables()       
-
+create_tables() 
+      
+Base.metadata.create_all(bind=engine)
 # === Mount các router ===
 app.include_router(predict_router)
 app.include_router(faces_router)
