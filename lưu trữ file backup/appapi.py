@@ -2,13 +2,12 @@ import os
 import time
 import cv2
 import numpy as np
-from fastapi import FastAPI, File, UploadFile, Form, Body
+from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.responses import JSONResponse, StreamingResponse
 from ultralytics import YOLO
 import torch
 from datetime import datetime
 import io
-import tempfile
 
 app = FastAPI()
 
@@ -18,7 +17,7 @@ model = None
 @app.on_event("startup")
 async def load_model():
     global model
-    model_path = r"D:\Sourcecode\private_project\Garbage_system\system\Garbage\model\v11\pt\v11L\model\best.pt"  
+    model_path = r"D:\SourceCode\ProGabage\system\models\pt\v11L\model\best.pt"  
     model = YOLO(model_path)
     model.to(torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
 
@@ -67,52 +66,9 @@ async def detect(
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
 
-@app.post("/detect_video/")
-async def detect_video(file: UploadFile = File(...)):
-    # Lưu file tạm
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4") as tmp:
-        tmp.write(await file.read())
-        video_path = tmp.name
-
-    # Xử lý video (lấy frame đầu tiên)
-    cap = cv2.VideoCapture(video_path)
-    ret, frame = cap.read()
-    cap.release()
-    os.remove(video_path)
-    if not ret:
-        return JSONResponse(content={"error": "Cannot read video"}, status_code=400)
-
-    # Nhận diện như ảnh
-    results = model(frame, verbose=False)
-    detections = results[0].boxes
-    for detection in detections:
-        xyxy = detection.xyxy.cpu().numpy().squeeze().astype(int)
-        xmin, ymin, xmax, ymax = xyxy
-        class_id = int(detection.cls.item())
-        class_name = model.names[class_id]
-        conf = detection.conf.item()
-        if conf > 0.5:
-            color = (0, 255, 0)
-            cv2.rectangle(frame, (xmin, ymin), (xmax, ymax), color, 2)
-            label = f'{class_name}: {conf:.2f}'
-            cv2.putText(frame, label, (xmin, ymin - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-
-    _, encoded_frame = cv2.imencode(".jpg", frame)
-    return StreamingResponse(io.BytesIO(encoded_frame.tobytes()), media_type="image/jpeg")
-
 @app.get("/status/")
 async def status():
     return {"status": "running", "device": str(model.device)}
-
-@app.post("/set_model/")
-async def set_model(model_path: str = Body(..., embed=True)):
-    global model
-    try:
-        model = YOLO(model_path)
-        model.to(torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
-        return {"message": f"Model loaded from {model_path}"}
-    except Exception as e:
-        return JSONResponse(content={"error": str(e)}, status_code=400)
 
 if __name__ == "__main__":
     import uvicorn

@@ -9,7 +9,7 @@ uvicorn==0.34.0
 tritonclient[all]
 Pillow==11.1.0
 opencv-python
-numpy
+numpy==1.26.4
 python-multipart
 torch==2.1.2+cu118
 torchvision==0.16.2+cu118
@@ -21,3 +21,6 @@ pymysql
 huggingface_hub
 openpyxl
 pandas
+
+psycopg2 sqlalchemy
+pymysql sqlalchemy

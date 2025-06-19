@@ -65,6 +65,12 @@ docker run --gpus=all --rm -p8000:8000 -p8001:8001 -p8002:8002 \
 
 ```bash
 cd system/Face_id/app
+python setup_db.py    => mysql
+docker run --rm -p8000:8000 -p8001:8001 -p8002:8002 `
+  -v D:/Sourcecode/private_project/Garbage_system/system/Face_id/model:/models `
+  nvcr.io/nvidia/tritonserver:23.10-py3 `
+  tritonserver --model-repository=/models
+cd/app
 uvicorn app:app --host 0.0.0.0 --port 8080 --reload
 ```
 
@@ -75,7 +81,19 @@ cd system/Garbage/app
 uvicorn appapi:app --host 0.0.0.0 --port 8000 --reload
 ```
 
+```
+Mở trình duyệt và truy cập Swagger UI
+Nếu chạy trên máy của bạn, hãy mở trình duyệt và truy cập:
+FaceID:
+http://localhost:8080/docs
+Garbage:
+http://localhost:8000/docs
+Swagger UI sẽ hiện ra, bạn có thể test trực tiếp các API (upload ảnh, gửi request, xem response, ...).
+3. Ngoài ra, có thể truy cập Redoc UI (giao diện khác):
+http://localhost:8080/redoc
+http://localhost:8000/redoc
 ---
+```
 
 ## Sơ đồ luồng hệ thống
 
